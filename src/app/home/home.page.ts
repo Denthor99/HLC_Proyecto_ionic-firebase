@@ -60,4 +60,12 @@ export class HomePage {
       console.error(error);
     });
   }
+
+  clickBotonModificar(){
+    this.firestoreService.modificar("peliculas",this.idPeliculaSelec,this.peliculaEditando).then(() => {
+      console.log('Pelicula modificada correctamente');
+    },(error)=>{
+      console.error(error);
+    });
+  }
 }
