@@ -35,7 +35,7 @@
   <ion-button (click)="clickBotonInsertar()">Añadir pelicula</ion-button>
   <ion-button (click)="clickBotonBorrar()">Borrar pelicula</ion-button>
   <ion-button (click)="clickBotonModificar()">Modificar pelicula</ion-button>
-
+<div class="listaPelis">
   <h1>Lista de Peliculas</h1>
   <ion-list>
     <ion-item *ngFor="let documentPelicula of arrayColeccionPeliculas" (click)="selecPelicula(documentPelicula.id, documentPelicula.pelicula)">
@@ -44,13 +44,17 @@
           <h2>{{documentPelicula.pelicula.titulo}}</h2>
         </ion-row>
         <ion-row>
-          <p>{{documentPelicula.pelicula.sinopsis}}</p>
+          <p><Strong>Sinopsis</Strong><br/>{{documentPelicula.pelicula.sinopsis}}</p>
         </ion-row>
         <ion-row presentation="date">
-          <p>{{documentPelicula.pelicula.fechaEstreno}}</p>
+          <p><Strong>Fecha de Estreno</Strong><br/>{{documentPelicula.pelicula.fechaEstreno}}</p>
+        </ion-row>
+        <ion-row>
+          <p><Strong>Nota de la crítica</Strong><br/>{{documentPelicula.pelicula.notaCritica}}</p>
         </ion-row>
       </ion-grid>
     </ion-item>
   </ion-list>
+</div>
 </ion-content>
 
