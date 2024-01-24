@@ -1,0 +1,42 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Peliculas
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Peliculas Famosas</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <br>
+  <ion-label>Título</ion-label>
+  <ion-input [(ngModel)]="document.data.titulo"></ion-input>
+  <hr>
+  <ion-label>Sinopsis</ion-label>
+  <ion-input [(ngModel)]="document.data.sinopsis"></ion-input>
+  <hr>
+  <ion-label>Fecha de Estreno</ion-label>
+  <ion-datetime type="date" [(ngModel)]="document.data.fechaEstreno"></ion-datetime>
+  <hr>
+  <ion-label>Director</ion-label>
+  <ion-input [(ngModel)]="document.data.director"></ion-input>
+  <hr>
+  <ion-label>Actores</ion-label>
+  <ion-input [(ngModel)]="document.data.actores"></ion-input>
+  <hr>
+  <ion-label>Nota de la Crítica</ion-label>
+  <ion-input [(ngModel)]="document.data.notaCritica"></ion-input>
+
+  <ion-button *ngIf="existePeli==false" (click)="clickBotonInsertar()">Añadir pelicula</ion-button>
+  <ion-button  id="present-alert" *ngIf="existePeli==true">Borrar pelicula</ion-button>
+  <ion-alert trigger="present-alert" header="Borrar Pelicula, ¿Desea continuar?"
+   [buttons]="alertButtons">
+  </ion-alert>
+  <ion-button *ngIf="existePeli==true" (click)="clickBotonModificar()">Modificar pelicula</ion-button>
+</ion-content>
+
+

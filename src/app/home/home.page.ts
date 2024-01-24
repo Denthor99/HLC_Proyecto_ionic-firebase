@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Pelicula } from '../pelicula';
 import { FirestoreService } from '../firestore.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
@@ -18,18 +19,10 @@ export class HomePage {
   // id de la  tarea seleccionada
   idPeliculaSelec: string = "";
 
-  constructor(private firestoreService: FirestoreService) {
+  constructor(private firestoreService: FirestoreService, private router: Router) {
     this.obtenerListaPeliculas();
   }
 
-  clickBotonInsertar(){
-    this.firestoreService.insertar("peliculas",this.peliculaEditando).then(() => {
-      console.log('Pelicula creada correctamente');
-      this.peliculaEditando={} as Pelicula;
-    },(error)=>{
-      console.error(error);
-    });
-  }
 
   obtenerListaPeliculas(){
     // Hacer una consulta cada vez que se detecten nuevos datos en la BBDD
@@ -49,23 +42,13 @@ export class HomePage {
   selecPelicula(idPelicula: string, peliculaSelec:Pelicula){
     this.peliculaEditando = peliculaSelec;
     this.idPeliculaSelec = idPelicula;
+    this.router.navigate(['detalle',this.idPeliculaSelec]);
   }
 
-  clickBotonBorrar(){
-    this.firestoreService.borrar("peliculas",this.idPeliculaSelec).then(() => {
-      console.log('Pelicula borrada correctamente');
-      this.peliculaEditando={} as Pelicula;
-      this.idPeliculaSelec = "";
-    },(error)=>{
-      console.error(error);
-    });
+  
+
+  clickBotonAddPeli(){
+    this.router.navigate(['detalle','nuevo']);
   }
 
-  clickBotonModificar(){
-    this.firestoreService.modificar("peliculas",this.idPeliculaSelec,this.peliculaEditando).then(() => {
-      console.log('Pelicula modificada correctamente');
-    },(error)=>{
-      console.error(error);
-    });
-  }
 }
