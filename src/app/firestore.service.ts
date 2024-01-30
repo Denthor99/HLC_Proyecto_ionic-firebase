@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-
+import { AngularFireStorage } from '@angular/fire/compat/storage';
 import {AngularFirestore} from '@angular/fire/compat/firestore';
 @Injectable({
   providedIn: 'root'
 })
 export class FirestoreService {
 
-  constructor(private angularFirestore: AngularFirestore) {
+  constructor(private angularFirestore: AngularFirestore,private angularFireStorage: AngularFireStorage) {
 
    }
 
@@ -34,5 +34,16 @@ export class FirestoreService {
   // Consulta por id
   public consultarPorId(coleccion:string,documentId:string){
     return this.angularFirestore.collection(coleccion).doc(documentId).snapshotChanges();
+  }
+
+  // Subir imagen  a Firebase Storage y guardar el link en Firestore
+  public subirImagenBase64(nombreCarpeta:string, nombreArchivo:string, imagenBase64:string){
+    let storageRef = this.angularFireStorage.ref(nombreCarpeta).child(nombreArchivo);
+    return storageRef.putString(imagenBase64, 'data_url');
+  }
+
+  // Eliminar  archivo de Firebase Storage
+  public eliminarArchivoPorUrl(url:string){
+    return this.angularFireStorage.storage.refFromURL(url).delete();
   }
 }
