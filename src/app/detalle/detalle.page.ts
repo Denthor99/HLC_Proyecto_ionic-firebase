@@ -154,7 +154,7 @@ export class DetallePage implements OnInit {
         snapshot.ref.getDownloadURL().then((downloadURL) => {
           //Asignar la URL de descarga de la imagen
           console.log('downloadURL: ' + downloadURL);
-          //this.document.data.imagenURL = downloadURL;
+          this.document.data.imagenURL = downloadURL;
           //MOstrar el mensaje de finalización de la subida
           toast.present();
           //Ocultar mensaje de espera

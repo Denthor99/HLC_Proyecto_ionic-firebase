@@ -30,7 +30,10 @@
   <hr>
   <ion-label>Nota de la Crítica</ion-label>
   <ion-input [(ngModel)]="document.data.notaCritica"></ion-input>
+  <img [src]="imagenSelec" *ngIf="imagenSelec">
 
+  <!-- Botones de acción -->
+  <ion-button (click)="seleccionarImagen()">Select Image</ion-button>
   <ion-button *ngIf="existePeli==false" (click)="clickBotonInsertar()">Añadir pelicula</ion-button>
   <ion-button  id="present-alert" *ngIf="existePeli==true">Borrar pelicula</ion-button>
   <ion-alert trigger="present-alert" header="Borrar Pelicula, ¿Desea continuar?"

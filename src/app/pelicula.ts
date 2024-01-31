@@ -5,5 +5,5 @@ export interface Pelicula{
     director: string;
     actores: string;
     notaCritica: number;
-
+    imagenURL: string;
 }
