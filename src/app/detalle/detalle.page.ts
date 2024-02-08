@@ -56,6 +56,48 @@ export class DetallePage implements OnInit {
     
   }
 
+  async subirImagenYPelicula() {
+    // Mensaje de espera mientras se sube la imagen
+    const loading = await this.loadingController.create({
+      message: 'Subiendo imagen...',
+    });
+    // Mostrar el mensaje de espera
+    loading.present();
+  
+    // Carpeta donde se guardará la imagen
+    let nombreCarpeta = 'imagenes';
+  
+    // Asignar el nombre de la imagen en función de la hora actual, para evitar duplicados
+    let nombreImagen = `${new Date().getTime()}`;
+  
+    try {
+      // Llamar al método que sube la imagen al Storage
+      const snapshot = await this.firestoreService.subirImagenBase64(nombreCarpeta, nombreImagen, this.imagenSelec);
+      const downloadURL = await snapshot.ref.getDownloadURL();
+      
+      // Asignar la URL de descarga de la imagen a la estructura de datos de la película
+      this.document.data.imagenURL = downloadURL;
+  
+      // Mensaje de finalización de subida
+      const toast = await this.toastController.create({
+        message: 'Imagen subida correctamente',
+        duration:  3000,
+      });
+      toast.present();
+  
+      // Insertar la información de la película después de subir la imagen
+      await this.firestoreService.insertar("peliculas", this.document.data);
+      console.log('Película creada correctamente');
+      this.document.data = {} as Pelicula;
+      this.router.navigate(['home']);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      // Ocultar mensaje de espera
+      loading.dismiss();
+    }
+  }
+  
   obtenerDetalles(){
     // Consultamos a la base de datos para obtener los datos asociados al id
     this.firestoreService.consultarPorId("peliculas",this.id).subscribe((resultado:any)=>{
@@ -146,7 +188,7 @@ export class DetallePage implements OnInit {
     loading.present();
 
     //Asignar el nombre de la imagen en función de la hora actual, para evitar duplicados
-    let nombreImagen = '${new Date().getTime()}';
+    let nombreImagen = `${new Date().getTime()}`;
     //Llamar al método que sube la imagen al Storage
     this.firestoreService
       .subirImagenBase64(nombreCarpeta, nombreImagen, this.imagenSelec)
@@ -154,8 +196,7 @@ export class DetallePage implements OnInit {
         snapshot.ref.getDownloadURL().then((downloadURL) => {
           //Asignar la URL de descarga de la imagen
           console.log('downloadURL: ' + downloadURL);
-          this.document.data.imagenURL = downloadURL;
-          //MOstrar el mensaje de finalización de la subida
+          //this.document.data.imagenURL = downloadURL;
           toast.present();
           //Ocultar mensaje de espera
           loading.dismiss();

@@ -34,12 +34,10 @@
 
   <!-- Botones de acción -->
   <ion-button (click)="seleccionarImagen()">Select Image</ion-button>
-  <ion-button *ngIf="existePeli==false" (click)="clickBotonInsertar()">Añadir pelicula</ion-button>
+  <ion-button *ngIf="existePeli==false" (click)="subirImagenYPelicula()">Añadir pelicula</ion-button>
   <ion-button  id="present-alert" *ngIf="existePeli==true">Borrar pelicula</ion-button>
   <ion-alert trigger="present-alert" header="Borrar Pelicula, ¿Desea continuar?"
    [buttons]="alertButtons">
   </ion-alert>
   <ion-button *ngIf="existePeli==true" (click)="clickBotonModificar()">Modificar pelicula</ion-button>
 </ion-content>
-
-
