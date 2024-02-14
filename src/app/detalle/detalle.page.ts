@@ -98,6 +98,73 @@ export class DetallePage implements OnInit {
     }
   }
   
+  async borrarImagenYPelicula(){
+    try {
+      // Primero, obtener la URL de la imagen a eliminar
+      const imagenURL = this.document.data.imagenURL;
+      
+      // Luego, eliminar la imagen del storage
+      await this.firestoreService.eliminarArchivoPorUrl(imagenURL);
+      const toast = await this.toastController.create({
+        message: 'Imagen eliminada correctamente',
+        duration:  3000
+      });
+      toast.present();
+      
+      // Finalmente, eliminar la película de Firestore
+      await this.firestoreService.borrar("peliculas", this.id);
+      console.log('Película borrada correctamente');
+      this.document.data = {} as Pelicula;
+      this.id = "";
+      this.router.navigate(['home']);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async modificarPeliculaConImagen() {
+    // Mensaje de espera mientras se sube la imagen
+    const loading = await this.loadingController.create({
+      message: 'Subiendo imagen...',
+    });
+    // Mensaje de finalización de subida
+    const toast = await this.toastController.create({
+      message: 'Imagen subida correctamente',
+      duration:  3000,
+    });
+  
+    // Carpeta donde se guardará la imagen
+    let nombreCarpeta = 'imagenes';
+    // Asignar el nombre de la imagen en función de la hora actual, para evitar duplicados
+    let nombreImagen = `${new Date().getTime()}`;
+  
+    try {
+      // Mostrar el mensaje de espera
+      loading.present();
+  
+      // Llamar al método que sube la imagen al Storage
+      const snapshot = await this.firestoreService.subirImagenBase64(nombreCarpeta, nombreImagen, this.imagenSelec);
+      const downloadURL = await snapshot.ref.getDownloadURL();
+  
+      // Asignar la URL de descarga de la imagen a la estructura de datos de la película
+      this.document.data.imagenURL = downloadURL;
+  
+      // Modificar la película con la nueva URL de la imagen
+      await this.firestoreService.modificar("peliculas", this.id, this.document.data);
+      console.log('Película modificada correctamente');
+  
+      // Presentar el mensaje de éxito
+      toast.present();
+      // Ocultar el mensaje de espera
+      loading.dismiss();
+  
+      // Navegar a 'home'
+      this.router.navigate(['home']);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+  
   obtenerDetalles(){
     // Consultamos a la base de datos para obtener los datos asociados al id
     this.firestoreService.consultarPorId("peliculas",this.id).subscribe((resultado:any)=>{
