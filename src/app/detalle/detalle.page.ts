@@ -5,6 +5,7 @@ import { Pelicula } from '../pelicula';
 import { Router } from '@angular/router';
 import { LoadingController, ToastController } from '@ionic/angular';
 import { ImagePicker } from '@awesome-cordova-plugins/image-picker/ngx';
+import { SocialSharing } from '@awesome-cordova-plugins/social-sharing/ngx';
 
 @Component({
   selector: 'app-detalle',
@@ -43,7 +44,8 @@ export class DetallePage implements OnInit {
     private router: Router,
     private loadingController: LoadingController,
     private toastController: ToastController,
-    private imagePicker: ImagePicker) { }
+    private imagePicker: ImagePicker,
+    private socialSharing: SocialSharing) { }
 
   ngOnInit() {
     let idDetalle = this.activatedRoute.snapshot.paramMap.get('id');
@@ -164,7 +166,19 @@ export class DetallePage implements OnInit {
       console.error(error);
     }
   }
-  
+
+  async compartirWhatsApp(){
+    try {
+      await this.socialSharing.shareViaWhatsApp('Poster de '+this.id, this.document.data.imagenURL);
+    } catch (error) {
+      console.error('Error sharing via WhatsApp', error);
+      const toast = await this.toastController.create({
+        message: 'Failed to share via WhatsApp',
+        duration:  3000
+      });
+      toast.present();
+    }
+  }
   obtenerDetalles(){
     // Consultamos a la base de datos para obtener los datos asociados al id
     this.firestoreService.consultarPorId("peliculas",this.id).subscribe((resultado:any)=>{
@@ -209,6 +223,8 @@ export class DetallePage implements OnInit {
   }
 
   async seleccionarImagen(){
+    // En caso de volver a pulsar esta opción, eliminamos la imagen seleccionada
+    this.imagenSelec = '';
     //  Comprobar si la aplicación tiene permisos de lectura
     this.imagePicker.hasReadPermission().then(
       (result) => {

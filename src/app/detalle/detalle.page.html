@@ -34,6 +34,7 @@
 
   <!-- Botones de acción -->
   <ion-button (click)="seleccionarImagen()">Select Image</ion-button>
+  <ion-button *ngIf="existePeli==true" (click)="compartirWhatsApp()">wassap</ion-button>
   <ion-button *ngIf="existePeli==false" (click)="subirImagenYPelicula()">Añadir pelicula</ion-button>
   <ion-button  id="present-alert" *ngIf="existePeli==true" (click)="borrarImagenYPelicula()">Borrar pelicula</ion-button>
   <ion-alert trigger="present-alert" header="Borrar Pelicula, ¿Desea continuar?"
