@@ -33,7 +33,7 @@ export class DetallePage implements OnInit {
        role: 'confirm',
        handler: () => {
          console.log('Pelicula borrada correctamente');
-         this.clickBotonBorrar();
+         this.borrarImagenYPelicula();
        }
     }
    ];
@@ -159,7 +159,6 @@ export class DetallePage implements OnInit {
       toast.present();
       // Ocultar el mensaje de espera
       loading.dismiss();
-  
       // Navegar a 'home'
       this.router.navigate(['home']);
     } catch (error) {
@@ -167,17 +166,12 @@ export class DetallePage implements OnInit {
     }
   }
 
-  async compartirWhatsApp(){
-    try {
-      await this.socialSharing.shareViaWhatsApp('Poster de '+this.id, this.document.data.imagenURL);
-    } catch (error) {
-      console.error('Error sharing via WhatsApp', error);
-      const toast = await this.toastController.create({
-        message: 'Failed to share via WhatsApp',
-        duration:  3000
-      });
-      toast.present();
-    }
+  clickSocialShare() {
+    this.socialSharing.share('Poster de '+this.document.data.titulo,this.document.data.imagenURL).then(() => {
+      console.log('Compartido correctamente');
+    }).catch((error) => {
+      console.error('Error al compartir', error);
+    });
   }
   obtenerDetalles(){
     // Consultamos a la base de datos para obtener los datos asociados al id
@@ -192,33 +186,6 @@ export class DetallePage implements OnInit {
         this.document.data = {} as Pelicula;
         this.existePeli = false;
       }
-    });
-  }
-  clickBotonInsertar(){
-    this.firestoreService.insertar("peliculas",this.document.data).then(() => {
-      console.log('Pelicula creada correctamente');
-      this.document.data = {} as Pelicula;
-      this.router.navigate(['home']);
-    },(error)=>{
-      console.error(error);
-    });
-  }
-  clickBotonBorrar(){
-    this.firestoreService.borrar("peliculas",this.id).then(() => {
-      console.log('Pelicula borrada correctamente');
-      this.document.data={} as Pelicula;
-      this.id = "";
-      this.router.navigate(['home']);
-    },(error)=>{
-      console.error(error);
-    });
-  }
-  clickBotonModificar(){
-    this.firestoreService.modificar("peliculas",this.id,this.document.data).then(() => {
-      console.log('Pelicula modificada correctamente');
-      this.router.navigate(['home']);
-    },(error)=>{
-      console.error(error);
     });
   }
 
