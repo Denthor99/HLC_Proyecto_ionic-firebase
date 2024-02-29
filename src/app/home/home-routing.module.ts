@@ -6,6 +6,10 @@ const routes: Routes = [
   {
     path: '',
     component: HomePage,
+  },
+  {
+    path: 'SobreNosotros',
+    redirectTo:'/sobre-nosotros'
   }
 ];
 

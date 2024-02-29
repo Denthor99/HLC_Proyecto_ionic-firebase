@@ -167,7 +167,7 @@ export class DetallePage implements OnInit {
   }
 
   clickSocialShare() {
-    this.socialSharing.share('Poster de '+this.document.data.titulo,this.document.data.imagenURL).then(() => {
+    this.socialSharing.share('Poster de '+this.document.data.ctitulo,this.document.data.imagenURL).then(() => {
       console.log('Compartido correctamente');
     }).catch((error) => {
       console.error('Error al compartir', error);
