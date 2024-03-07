@@ -31,6 +31,7 @@
   <ion-label>Nota de la Crítica</ion-label>
   <ion-input [(ngModel)]="document.data.notaCritica"></ion-input>
   <img [src]="imagenSelec" *ngIf="imagenSelec">
+  <!-- <img [src]="document.data.imagenURL" *ngIf="existePeli==true"> -->
 
   <!-- Botones de acción -->
   <ion-button (click)="seleccionarImagen()"><ion-icon name="images-outline"></ion-icon></ion-button>

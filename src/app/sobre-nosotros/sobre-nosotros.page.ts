@@ -9,12 +9,14 @@ import * as L from 'leaflet';
   styleUrls: ['./sobre-nosotros.page.scss'],
 })
 export class SobreNosotrosPage implements OnInit {
-map: any;
-  constructor(private callNumber:CallNumber) { }
+map: L.Map;
+  constructor(private callNumber:CallNumber) { 
+    this.map = {} as L.Map;
+  }
 
   ngOnInit() {
   }
-  ionViewDidLoad(){
+  ionViewDidEnter(){
     this.loadMap();
   }
   llamadita(){
@@ -23,11 +25,13 @@ map: any;
   .catch(e => console.log('Error al iniciar la llamada', e));
   }
   loadMap(){
-    let latitud = 36.6797047;
-    let longitud = -5.4470656;
+    let latitud = 36.6502006;
+    let longitud = -6.1277114;
     let zoom = 17;
     this.map = L.map("mapId").setView([latitud, longitud], zoom);
+    this.map.dragging.enable();
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png')
         .addTo(this.map);
+    L.marker([latitud,longitud]).addTo(this.map);
   }
 }
