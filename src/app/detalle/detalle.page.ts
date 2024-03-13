@@ -61,57 +61,66 @@ export class DetallePage implements OnInit {
   async subirImagenYPelicula() {
     // Mensaje de espera mientras se sube la imagen
     const loading = await this.loadingController.create({
-      message: 'Subiendo imagen...',
+       message: 'Subiendo imagen...',
     });
     // Mostrar el mensaje de espera
     loading.present();
-  
+   
     // Carpeta donde se guardará la imagen
     let nombreCarpeta = 'imagenes';
-  
+   
     // Asignar el nombre de la imagen en función de la hora actual, para evitar duplicados
     let nombreImagen = `${new Date().getTime()}`;
-  
+   
     try {
-      // Llamar al método que sube la imagen al Storage
-      const snapshot = await this.firestoreService.subirImagenBase64(nombreCarpeta, nombreImagen, this.imagenSelec);
-      const downloadURL = await snapshot.ref.getDownloadURL();
-      
-      // Asignar la URL de descarga de la imagen a la estructura de datos de la película
-      this.document.data.imagenURL = downloadURL;
-  
-      // Mensaje de finalización de subida
-      const toast = await this.toastController.create({
-        message: 'Imagen subida correctamente',
-        duration:  3000,
-      });
-      toast.present();
-  
-      // Insertar la información de la película después de subir la imagen
-      await this.firestoreService.insertar("peliculas", this.document.data);
-      console.log('Película creada correctamente');
-      this.document.data = {} as Pelicula;
-      this.router.navigate(['home']);
+       // Verificar si se ha seleccionado una imagen
+       if (this.imagenSelec) {
+         // Llamar al método que sube la imagen al Storage
+         const snapshot = await this.firestoreService.subirImagenBase64(nombreCarpeta, nombreImagen, this.imagenSelec);
+         const downloadURL = await snapshot.ref.getDownloadURL();
+   
+         // Asignar la URL de descarga de la imagen a la estructura de datos de la película
+         this.document.data.imagenURL = downloadURL;
+   
+         // Mensaje de finalización de subida
+         const toast = await this.toastController.create({
+           message: 'Imagen subida correctamente',
+           duration:  3000,
+         });
+         toast.present();
+       }
+   
+       // Insertar la información de la película después de subir la imagen
+       await this.firestoreService.insertar("peliculas", this.document.data);
+       console.log('Película creada correctamente');
+       this.document.data = {} as Pelicula;
+       this.router.navigate(['home']);
     } catch (error) {
-      console.error(error);
+       console.error(error);
     } finally {
-      // Ocultar mensaje de espera
-      loading.dismiss();
+       // Ocultar mensaje de espera
+       loading.dismiss();
     }
-  }
+   }
+   
   
-  async borrarImagenYPelicula(){
+   async borrarImagenYPelicula(){
     try {
       // Primero, obtener la URL de la imagen a eliminar
       const imagenURL = this.document.data.imagenURL;
       
-      // Luego, eliminar la imagen del storage
-      await this.firestoreService.eliminarArchivoPorUrl(imagenURL);
-      const toast = await this.toastController.create({
-        message: 'Imagen eliminada correctamente',
-        duration:  3000
-      });
-      toast.present();
+      // Verificar si existe una imagen asociada
+      if (imagenURL) {
+        // Luego, eliminar la imagen del storage
+        await this.firestoreService.eliminarArchivoPorUrl(imagenURL);
+
+        // Mensaje de finalización de eliminación de la imagen
+        const toast = await this.toastController.create({
+          message: 'Imagen eliminada correctamente',
+          duration:  3000
+        });
+        toast.present();
+      }
       
       // Finalmente, eliminar la película de Firestore
       await this.firestoreService.borrar("peliculas", this.id);
@@ -122,7 +131,8 @@ export class DetallePage implements OnInit {
     } catch (error) {
       console.error(error);
     }
-  }
+}
+
 
   async modificarPeliculaConImagen() {
     // Mensaje de espera mientras se sube la imagen
@@ -167,12 +177,27 @@ export class DetallePage implements OnInit {
   }
 
   clickSocialShare() {
-    this.socialSharing.share(this.document.data.imagenURL).then(() => {
-      console.log('Compartido correctamente');
-    }).catch((error) => {
-      console.error('Error al compartir', error);
-    });
-  }
+    // Verificar si existe una imagen asociada
+    if (this.document.data.imagenURL) {
+       // Si existe, compartir la imagen
+       this.socialSharing.share(this.document.data.imagenURL).then(() => {
+         console.log('Compartido correctamente');
+       }).catch((error) => {
+         console.error('Error al compartir', error);
+       });
+    } else {
+       // Si no existe, construir un mensaje con el título y la sinopsis
+       const mensaje = `${this.document.data.titulo}\n\n${this.document.data.sinopsis}`;
+       
+       // Compartir el mensaje
+       this.socialSharing.share(mensaje).then(() => {
+         console.log('Compartido correctamente');
+       }).catch((error) => {
+         console.error('Error al compartir', error);
+       });
+    }
+   }
+   
   obtenerDetalles(){
     // Consultamos a la base de datos para obtener los datos asociados al id
     this.firestoreService.consultarPorId("peliculas",this.id).subscribe((resultado:any)=>{
@@ -252,18 +277,5 @@ export class DetallePage implements OnInit {
           loading.dismiss();
         });
       });
-  }
-
-  async eliminarArchivo(fileURL:string){
-    const toast = await this.toastController.create({
-      message: 'Imagen eliminada correctamente',
-      duration: 3000
-    });
-    this.firestoreService.eliminarArchivoPorUrl(fileURL)
-    .then(()=>{
-      toast.present();
-    }, (err) =>{
-      console.error(err);
-    });
   }
 }

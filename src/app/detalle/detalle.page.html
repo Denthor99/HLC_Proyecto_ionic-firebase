@@ -37,7 +37,7 @@
   <ion-button (click)="seleccionarImagen()"><ion-icon name="images-outline"></ion-icon></ion-button>
   <ion-button *ngIf="existePeli==true" (click)="clickSocialShare()"><ion-icon name="share-social-outline"></ion-icon></ion-button>
   <ion-button *ngIf="existePeli==false" (click)="subirImagenYPelicula()"><ion-icon name="send-outline"></ion-icon></ion-button>
-  <ion-button  id="present-alert" *ngIf="existePeli==true" (click)="borrarImagenYPelicula()"><ion-icon name="trash-outline"></ion-icon></ion-button>
+  <ion-button  id="present-alert" *ngIf="existePeli==true"><ion-icon name="trash-outline"></ion-icon></ion-button>
   <ion-alert trigger="present-alert" header="Borrar Pelicula, ¿Desea continuar?"
    [buttons]="alertButtons">
   </ion-alert>
