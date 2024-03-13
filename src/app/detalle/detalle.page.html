@@ -1,10 +1,24 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Peliculas
+      <ion-icon name="logo-ionic"></ion-icon> Peliculas
     </ion-title>
   </ion-toolbar>
 </ion-header>
+<ion-toolbar class="tabs">
+  <ion-tabs>
+    <ion-tab-bar slot="bottom">
+      <ion-tab-button tab="home">
+        <ion-icon name="home"></ion-icon>
+        <ion-label>Inicio</ion-label>
+      </ion-tab-button>
+      <ion-tab-button tab="SobreNosotros">
+        <ion-icon name="information-circle-outline"></ion-icon>
+        <ion-label>Sobre Nosotros</ion-label>
+      </ion-tab-button>
+    </ion-tab-bar>
+  </ion-tabs>
+</ion-toolbar>
 
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
@@ -34,12 +48,18 @@
   <!-- <img [src]="document.data.imagenURL" *ngIf="existePeli==true"> -->
 
   <!-- Botones de acción -->
-  <ion-button (click)="seleccionarImagen()"><ion-icon name="images-outline"></ion-icon></ion-button>
-  <ion-button *ngIf="existePeli==true" (click)="clickSocialShare()"><ion-icon name="share-social-outline"></ion-icon></ion-button>
-  <ion-button *ngIf="existePeli==false" (click)="subirImagenYPelicula()"><ion-icon name="send-outline"></ion-icon></ion-button>
-  <ion-button  id="present-alert" *ngIf="existePeli==true"><ion-icon name="trash-outline"></ion-icon></ion-button>
-  <ion-alert trigger="present-alert" header="Borrar Pelicula, ¿Desea continuar?"
-   [buttons]="alertButtons">
-  </ion-alert>
-  <ion-button *ngIf="existePeli==true" (click)="modificarPeliculaConImagen()"><ion-icon name="create-outline"></ion-icon></ion-button>
+  <ion-grid>
+    <ion-row class="ion-align-items-center ion-justify-content-center">
+      <ion-col size="12">
+        <ion-button (click)="seleccionarImagen()"><ion-icon name="images-outline"></ion-icon></ion-button>
+        <ion-button *ngIf="existePeli==true" (click)="clickSocialShare()"><ion-icon name="share-social-outline"></ion-icon></ion-button>
+        <ion-button *ngIf="existePeli==false" (click)="subirImagenYPelicula()"><ion-icon name="send-outline"></ion-icon></ion-button>
+        <ion-button *ngIf="existePeli==true" id="present-alert"><ion-icon name="trash-outline"></ion-icon></ion-button>
+        <ion-alert trigger="present-alert" header="Borrar Pelicula, ¿Desea continuar?"
+         [buttons]="alertButtons">
+        </ion-alert>
+        <ion-button *ngIf="existePeli==true" (click)="modificarPeliculaConImagen()"><ion-icon name="create-outline"></ion-icon></ion-button>
+      </ion-col>
+    </ion-row>
+ </ion-grid>
 </ion-content>

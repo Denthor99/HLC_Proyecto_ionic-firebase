@@ -7,6 +7,14 @@ const routes: Routes = [
   {
     path: '',
     component: DetallePage
+  },
+  {
+    path: 'SobreNosotros',
+    redirectTo:'/sobre-nosotros'
+  },
+  {
+    path: 'home',
+    redirectTo:'/home'
   }
 ];
 

@@ -1,43 +1,47 @@
-#container {
+/* Estilos generales */
+:root {
+  --ion-color-primary: #019ae8;
+  --ion-color-secondary: #817f7f;
+  --ion-color-tertiary: #f4f4f4;
+ }
+ 
+ /* Estilos para el home */
+ #container {
   text-align: center;
-
   position: absolute;
   left: 0;
   right: 0;
   top: 50%;
   transform: translateY(-50%);
-}
-
-#container strong {
-  font-size: 20px;
-  line-height: 26px;
-}
-
-#container p {
-  font-size: 16px;
-  line-height: 22px;
-
-  color: #8c8c8c;
-
-  margin: 0;
-}
-
-#container a {
-  text-decoration: none;
-}
-.listaPelis{
-  h1{
-    text-align: center;
-    font-weight: bold;
-    background-color: #817f7f;
-    padding-top: 15px;
-    padding-bottom: 15px;
-    border-radius: 15px;
+ }
+ 
+ /* Estilos para la lista de películas */
+ .listaPelis {
+  h1 {
+     text-align: center;
+     font-weight: bold;
+     background-color: var(--ion-color-secondary);
+     padding: 15px;
+     border-radius: 15px;
   }
-  ion-list{
-    --background: cornsilk;
-    ion-item{
-      --background: cornsilk;
-    }
+  ion-list {
+     --background: var(--ion-color-tertiary);
+     ion-item {
+       --background: #f0e68c;
+     }
   }
-}
+ }
+ 
+ /* Estilos para los botones */
+ ion-button {
+  --background: var(--ion-color-primary);
+  --color: white;
+  --border-radius: 10px;
+ }
+ 
+ /* Estilos para el tab bar */
+ ion-tab-bar {
+  --background: var(--ion-color-primary);
+  --color: white;
+ }
+ 

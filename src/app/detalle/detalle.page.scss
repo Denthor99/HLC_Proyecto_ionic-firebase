@@ -1,0 +1,44 @@
+ion-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+   }
+   
+   ion-grid {
+    width: 100%;
+   }
+   
+   ion-row {
+    width: 100%;
+   }
+   
+   ion-col {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+   }
+   
+   ion-button {
+    margin: 10px; // Añade un margen entre los botones para mejorar la legibilidad
+   }
+   .tabs{
+    margin-bottom: 10px;
+   }
+   ion-toolbar.tabs {
+    --padding-bottom: 20px; // Aumenta el espacio en la parte inferior de la barra de tabs
+   }
+   
+   ion-tab-bar {
+    --background: var(--ion-color-primary); // Ajusta el color de fondo de la barra de tabs
+    --color: white; // Ajusta el color del texto y los iconos de la barra de tabs
+    --padding-bottom: 10px; // Añade un poco de espacio en la parte inferior de la barra de tabs
+    --padding-top: 10px; // Añade un poco de espacio en la parte superior de la barra de tabs
+   }
+   
+   ion-tab-button {
+    --padding-top: 10px; // Ajusta el espacio en la parte superior de cada botón de tab
+    --padding-bottom: 10px; // Ajusta el espacio en la parte inferior de cada botón de tab
+   }
