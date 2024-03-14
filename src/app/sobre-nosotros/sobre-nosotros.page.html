@@ -34,8 +34,16 @@
     <h1>¿Donde nos encontramos?</h1>
     <div id="mapId" style="width:90%; height:400px; "></div>
   </div>
-  <div>
-    <h1>Telefono de contacto</h1>
-    <ion-button (click)="llamadita()"><ion-icon name="call-outline"></ion-icon></ion-button>
-  </div>
+  <ion-grid>
+    <ion-row class="ion-align-items-center ion-justify-content-center">
+      <ion-col size="12">
+        <div>
+          <h1>Información de contacto</h1>
+          <ion-button (click)="llamadita()"><ion-icon name="call-outline"></ion-icon></ion-button>
+          <ion-button (click)="llamadita()"><ion-icon name="logo-instagram"></ion-icon></ion-button>
+          <ion-button (click)="llamadita()"><ion-icon name="logo-whatsapp"></ion-icon></ion-button>
+        </div>
+    </ion-col>
+  </ion-row>
+  </ion-grid>
 </ion-content>

@@ -244,38 +244,4 @@ export class DetallePage implements OnInit {
         console.log(err);
       });
   }
-
-  async subirImagen() {
-    //Mensaje de espera mientras se suba la imagen
-    const loading = await this.loadingController.create({
-      message: 'Subiendo imagen...',
-    });
-    //Mensaje de finalización de subida
-    const toast = await this.toastController.create({
-      message: 'Imagen subida correctamente',
-      duration: 3000,
-    });
-
-    //Carpeta donde se guardará la imagen
-    let nombreCarpeta = 'imagenes';
-
-    //Mostrar el mensaje de espera
-    loading.present();
-
-    //Asignar el nombre de la imagen en función de la hora actual, para evitar duplicados
-    let nombreImagen = `${new Date().getTime()}`;
-    //Llamar al método que sube la imagen al Storage
-    this.firestoreService
-      .subirImagenBase64(nombreCarpeta, nombreImagen, this.imagenSelec)
-      .then((snapshot) => {
-        snapshot.ref.getDownloadURL().then((downloadURL) => {
-          //Asignar la URL de descarga de la imagen
-          console.log('downloadURL: ' + downloadURL);
-          //this.document.data.imagenURL = downloadURL;
-          toast.present();
-          //Ocultar mensaje de espera
-          loading.dismiss();
-        });
-      });
-  }
 }

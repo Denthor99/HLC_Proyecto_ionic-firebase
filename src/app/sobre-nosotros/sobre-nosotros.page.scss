@@ -1,1 +1,24 @@
 @import "~leaflet/dist/leaflet.css";
+ 
+ion-grid {
+    width: 100%;
+   }
+   
+   ion-row {
+    width: 100%;
+   }
+   
+   ion-col {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+   }
+   
+   ion-button {
+    margin: 10px;
+   }
+   ion-tab-bar {
+    --background: var(--ion-color-primary);
+    --color: white;
+   }
